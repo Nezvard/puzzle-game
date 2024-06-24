@@ -1,55 +1,144 @@
-var emptyRow = 2;
-var emptyCol = 2;
+let puzzleContainer = document.getElementById("puzzle");
+let difficultySelector = document.getElementById("difficulty");
+let uploadInput = document.getElementById("upload");
+let startButton = document.getElementById("startGame");
+let puzzleImage = "/image/puzzle.jpg";
+let isShuffled = false;
 
-var makeMoveHandler = function (tile, i, j) {
-  var row = i;
-  var col = j;
+let emptyRow, emptyCol;
+let gridSize;
 
-  return function () {
-    var rowOffset = Math.abs(emptyRow - row);
-    var colOffset = Math.abs(emptyCol - col);
+const createPuzzle = (size, imageSrc) => {
+  puzzleContainer.innerHTML = "";
+  gridSize = size;
+  puzzleContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  puzzleContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
-    if (
-      (rowOffset == 1 && colOffset == 0) ||
-      (rowOffset == 0 && colOffset == 1)
-    ) {
-      tile.style.marginLeft = emptyCol * 200 + "px";
-      tile.style.marginTop = emptyRow * 200 + "px";
-      [row, emptyRow] = [emptyRow, row];
-      [col, emptyCol] = [emptyCol, col];
+  emptyRow = size - 1;
+  emptyCol = size - 1;
+
+  let tileWidth = puzzleContainer.clientWidth / size;
+  let tileHeight = puzzleContainer.clientHeight / size;
+
+  let numbers = Array.from({ length: size * size - 1 }, (_, i) => i + 1);
+  numbers.push(null); // пусте місце
+
+  numbers.forEach((number, index) => {
+    const row = Math.floor(index / size);
+    const col = index % size;
+
+    if (number !== null) {
+      const tile = document.createElement("div");
+      tile.classList.add("tile");
+      tile.style.width = `${tileWidth}px`;
+      tile.style.height = `${tileHeight}px`;
+      tile.style.backgroundImage = `url(${imageSrc})`;
+      tile.style.backgroundSize = `${puzzleContainer.clientWidth}px ${puzzleContainer.clientHeight}px`;
+      tile.style.backgroundPosition = `${(col / (size - 1)) * 100}% ${
+        (row / (size - 1)) * 100
+      }%`;
+      tile.style.top = `${row * tileHeight}px`;
+      tile.style.left = `${col * tileWidth}px`;
+      tile.setAttribute("data-row", row);
+      tile.setAttribute("data-col", col);
+      tile.setAttribute("data-index", index);
+      tile.addEventListener("click", () => moveTile(tile));
+      puzzleContainer.appendChild(tile);
     }
+  });
+};
+
+const moveTile = (tile) => {
+  const row = parseInt(tile.getAttribute("data-row"));
+  const col = parseInt(tile.getAttribute("data-col"));
+  const rowOffset = Math.abs(emptyRow - row);
+  const colOffset = Math.abs(emptyCol - col);
+
+  if (rowOffset + colOffset === 1) {
+    const emptyTileTop = `${
+      emptyRow * (puzzleContainer.clientHeight / gridSize)
+    }px`;
+    const emptyTileLeft = `${
+      emptyCol * (puzzleContainer.clientWidth / gridSize)
+    }px`;
+
+    tile.style.top = emptyTileTop;
+    tile.style.left = emptyTileLeft;
+
+    tile.setAttribute("data-row", emptyRow);
+    tile.setAttribute("data-col", emptyCol);
+
+    emptyRow = row;
+    emptyCol = col;
+
+    if (isShuffled) {
+      checkWin();
+    }
+  }
+};
+
+const loadPuzzleImage = (event) => {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    puzzleImage = e.target.result;
   };
+  reader.readAsDataURL(event.target.files[0]);
 };
 
-var shuffle = function () {
-  var rows = document.querySelectorAll(".row");
-  for (let i = 0; i < 85; ++i) {
-    var row = ~~(Math.random() * rows.length);
-    var tiles = rows.item(row).querySelectorAll(".tile");
-    var tile = ~~(Math.random() * tiles.length);
-    tiles.item(tile).click();
+const shufflePuzzle = () => {
+  for (let i = 0; i < 1000; i++) {
+    const movableTiles = getMovableTiles();
+    const randomTile =
+      movableTiles[Math.floor(Math.random() * movableTiles.length)];
+    moveTile(randomTile);
   }
+  isShuffled = true;
 };
 
-var initTiles = function () {
-  var rows = document.querySelectorAll(".row");
-
-  for (let i = 0; i < rows.length; ++i) {
-    var row = rows.item(i);
-
-    var tiles = row.querySelectorAll(".tile");
-    for (let j = 0; j < tiles.length; ++j) {
-      var tile = tiles.item(j);
-
-      tile.addEventListener("click", makeMoveHandler(tile, i, j));
-
-      tile.style.marginLeft = j * 200 + "px";
-      tile.style.marginTop = i * 200 + "px";
-
-      tile.style.backgroundPosition = `${600 - j * 200}px ${600 - i * 200}px`;
+const getMovableTiles = () => {
+  return Array.from(puzzleContainer.getElementsByClassName("tile")).filter(
+    (tile) => {
+      const row = parseInt(tile.getAttribute("data-row"));
+      const col = parseInt(tile.getAttribute("data-col"));
+      const rowOffset = Math.abs(emptyRow - row);
+      const colOffset = Math.abs(emptyCol - col);
+      return rowOffset + colOffset === 1;
     }
+  );
+};
+
+const checkWin = () => {
+  const tiles = Array.from(puzzleContainer.getElementsByClassName("tile"));
+  let isWin = true;
+
+  tiles.forEach((tile) => {
+    const row = parseInt(tile.getAttribute("data-row"));
+    const col = parseInt(tile.getAttribute("data-col"));
+    const index = parseInt(tile.getAttribute("data-index"));
+    const correctRow = Math.floor(index / gridSize);
+    const correctCol = index % gridSize;
+
+    if (row !== correctRow || col !== correctCol) {
+      isWin = false;
+    }
+  });
+
+  if (isWin) {
+    setTimeout(() => {
+      alert("Congratulations! You have solved the puzzle!");
+      isShuffled = false;
+    }, 300);
   }
 };
 
-initTiles();
-shuffle();
+const startGame = () => {
+  const size = parseInt(difficultySelector.value);
+  createPuzzle(size, puzzleImage);
+  isShuffled = false;
+  shufflePuzzle();
+};
+
+uploadInput.addEventListener("change", loadPuzzleImage);
+startButton.addEventListener("click", startGame);
+
+startGame();

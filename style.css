@@ -77,45 +77,21 @@ a:hover {
 }
 
 .tile {
-  width: 199px;
-  height: 199px;
   border: 1px solid black;
-  background-image: url("./image/puzzle.jpg");
-  background-size: 600px 600px;
+  background-size: cover;
   transition: all 300ms;
   position: absolute;
 }
 
-.tile:before {
-  position: absolute;
-  content: "";
-  left: -20px;
-  right: -20px;
-  top: 0;
-  bottom: 0;
-  background: linear-gradient(
-      90deg,
-      transparent 210px,
-      #111 210px,
-      transparent 230px
-    ),
-    linear-gradient(-90deg, transparent 210px, #111 210px, transparent 230px);
-  z-index: -1;
+.controls {
+  margin: 20px auto;
+  text-align: center;
 }
 
-.tile:after {
-  position: absolute;
-  content: "";
-  top: -20px;
-  bottom: -20px;
-  left: 0;
-  right: 0;
-  background: linear-gradient(
-      0deg,
-      transparent 210px,
-      #111 210px,
-      transparent 230px
-    ),
-    linear-gradient(180deg, transparent 210px, #111 210px, transparent 230px);
-  z-index: -1;
+.controls label,
+.controls select,
+.controls input,
+.controls button {
+  font-size: 16px;
+  margin: 5px;
 }

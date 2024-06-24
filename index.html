@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Sliding Puzzle</title>
+    <title>Puzzle Game</title>
     <link
       href="https://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope"
       rel="stylesheet"
@@ -10,25 +10,22 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Puzzle Game</h1>
+    <h1>Puzzle Puzzle</h1>
     <div class="bevelBox">
-      <div id="puzzle">
-        <div class="row">
-          <div class="tile"></div>
-          <div class="tile"></div>
-          <div class="tile"></div>
-        </div>
-        <div class="row">
-          <div class="tile"></div>
-          <div class="tile"></div>
-          <div class="tile"></div>
-        </div>
-        <div class="row">
-          <div class="tile"></div>
-          <div class="tile"></div>
-        </div>
-      </div>
+      <div id="puzzle"></div>
     </div>
+    <div class="controls">
+      <label for="difficulty">Difficulty:</label>
+      <select id="difficulty">
+        <option value="3">Easy</option>
+        <option value="4">Medium</option>
+        <option value="5">Hard</option>
+      </select>
+      <input type="file" id="upload" accept="image/*" />
+      <button id="startGame">Start Game</button>
+    </div>
+    <p>
+    </p>
     <script src="script.js"></script>
   </body>
 </html>

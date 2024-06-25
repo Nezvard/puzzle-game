@@ -3,7 +3,7 @@ const difficultySelector = document.getElementById("difficulty");
 const uploadInput = document.getElementById("upload");
 const startButton = document.getElementById("startGame");
 const themeToggleButton = document.getElementById("themeToggle");
-let puzzleImage = "./image/puzzle.jpg";
+let puzzleImage = "image/puzzle.jpg";
 let isShuffled = false;
 
 let emptyRow, emptyCol;

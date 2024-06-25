@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <title>Puzzle Game</title>
     <link
       href="https://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope"
@@ -9,23 +9,32 @@
     />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <h1>Puzzle Puzzle</h1>
-    <div class="bevelBox">
-      <div id="puzzle"></div>
+  <body class="theme theme--light">
+    <h1 class="title">Puzzle Game</h1>
+    <div class="puzzle-container">
+      <div class="puzzle" id="puzzle"></div>
     </div>
     <div class="controls">
-      <label for="difficulty">Difficulty:</label>
-      <select id="difficulty">
-        <option value="3">Easy</option>
-        <option value="4">Medium</option>
-        <option value="5">Hard</option>
+      <label class="controls__label" for="difficulty">Difficulty:</label>
+      <select class="controls__select" id="difficulty">
+        <option class="controls__option" value="3">Easy</option>
+        <option class="controls__option" value="4">Medium</option>
+        <option class="controls__option" value="5">Hard</option>
       </select>
-      <input type="file" id="upload" accept="image/*" />
-      <button id="startGame">Start Game</button>
+      <div class="controls__file">
+        <input
+          type="file"
+          id="upload"
+          accept="image/*"
+          class="controls__file-input"
+        />
+        <label for="upload" class="button button--file">Choose File</label>
+      </div>
+      <button class="button button--primary" id="startGame">Start Game</button>
+      <button class="button button--secondary" id="themeToggle">
+        Toggle Theme
+      </button>
     </div>
-    <p>
-    </p>
     <script src="script.js"></script>
   </body>
 </html>

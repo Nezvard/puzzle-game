@@ -1,14 +1,22 @@
 @import url("https://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope");
 
 body {
-  background-image: url("./image/background.jpg");
-  background-position: center center;
-  background-size: cover;
   font-family: "Annie Use Your Telescope", cursive;
   text-align: center;
+  transition: background-color 0.5s, color 0.5s;
 }
 
-h1 {
+.theme--light {
+  background-color: #f0f0f0;
+  color: #000000;
+}
+
+.theme--dark {
+  background-color: #303030;
+  color: #f0f0f0;
+}
+
+.title {
   background-color: rgba(84, 57, 21, 0.8);
   color: transparent;
   text-shadow: 0.5px 0.4px 0.2px rgba(255, 255, 255, 0.2);
@@ -19,32 +27,12 @@ h1 {
   font-size: 65px;
 }
 
-p {
-  background-color: rgb(49, 33, 12);
-  color: transparent;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  background-clip: text;
-  margin: 5px auto;
-  font-size: 26px;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-a:hover {
-  text-shadow: 0px 0px 1px black;
-  transition: all 200ms;
-}
-
-.bevelBox {
+.puzzle-container {
   width: 600px;
   padding: 10px;
   height: 600px;
-  margin: 0 auto;
-  background-image: url("./image/puzzleborder.jpg");
+  margin: 0 auto 20px;
+  background-color: #6d6d6d;
   background-position: center center;
   background-size: cover;
   box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.4),
@@ -52,9 +40,9 @@ a:hover {
     -2px -2px 10px black;
 }
 
-#puzzle {
-  width: 600px;
-  height: 600px;
+.puzzle {
+  width: 100%;
+  height: 100%;
   background-color: rgb(19, 19, 19);
   overflow: hidden;
   position: relative;
@@ -63,7 +51,7 @@ a:hover {
     -2px -2px 2px rgba(0, 0, 0, 0.4), inset 4px 4px 4px rgba(0, 0, 0, 0.7);
 }
 
-#puzzle:before {
+.puzzle::before {
   content: "";
   background-image: url("./image/puzzleback.jpg");
   background-position: center center;
@@ -88,10 +76,86 @@ a:hover {
   text-align: center;
 }
 
-.controls label,
-.controls select,
-.controls input,
-.controls button {
+.controls__label,
+.controls__select,
+.controls__file,
+.button {
   font-size: 16px;
   margin: 5px;
+}
+
+.controls__label {
+  color: inherit;
+  margin-right: 10px;
+  font-size: 24px; /* Increase size of Difficulty label */
+}
+
+.controls__select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  background-color: #fff;
+  font-size: 16px;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.controls__select:hover {
+  border-color: #999;
+  background-color: #f0f0f0;
+}
+
+.controls__file {
+  display: inline-block;
+  position: relative;
+}
+
+.controls__file-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.button {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.button--file {
+  padding-top: 11px;
+  font-size: 15px;
+  color: #fff;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #663399, #483d8b);
+}
+
+.button--file:hover {
+  box-shadow: 0 0 10px #663399, 0 0 20px #483d8b;
+}
+
+.button--primary {
+  font-size: 18px;
+  color: #fff;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #663399, #483d8b);
+}
+
+.button--primary:hover {
+  box-shadow: 0 0 10px #663399, 0 0 20px #483d8b;
+}
+
+.button--secondary {
+  font-size: 18px;
+  color: #fff;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #333, #666);
+}
+
+.button--secondary:hover {
+  box-shadow: 0 0 10px #333, 0 0 20px #666;
 }

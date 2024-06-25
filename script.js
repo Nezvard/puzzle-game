@@ -1,7 +1,8 @@
-let puzzleContainer = document.getElementById("puzzle");
-let difficultySelector = document.getElementById("difficulty");
-let uploadInput = document.getElementById("upload");
-let startButton = document.getElementById("startGame");
+const puzzleContainer = document.getElementById("puzzle");
+const difficultySelector = document.getElementById("difficulty");
+const uploadInput = document.getElementById("upload");
+const startButton = document.getElementById("startGame");
+const themeToggleButton = document.getElementById("themeToggle");
 let puzzleImage = "/image/puzzle.jpg";
 let isShuffled = false;
 
@@ -17,11 +18,11 @@ const createPuzzle = (size, imageSrc) => {
   emptyRow = size - 1;
   emptyCol = size - 1;
 
-  let tileWidth = puzzleContainer.clientWidth / size;
-  let tileHeight = puzzleContainer.clientHeight / size;
+  const tileWidth = puzzleContainer.clientWidth / size;
+  const tileHeight = puzzleContainer.clientHeight / size;
 
-  let numbers = Array.from({ length: size * size - 1 }, (_, i) => i + 1);
-  numbers.push(null); // пусте місце
+  const numbers = Array.from({ length: size * size - 1 }, (_, i) => i + 1);
+  numbers.push(null);
 
   numbers.forEach((number, index) => {
     const row = Math.floor(index / size);
@@ -138,7 +139,19 @@ const startGame = () => {
   shufflePuzzle();
 };
 
+const toggleTheme = () => {
+  const body = document.body;
+  if (body.classList.contains("theme--light")) {
+    body.classList.remove("theme--light");
+    body.classList.add("theme--dark");
+  } else {
+    body.classList.remove("theme--dark");
+    body.classList.add("theme--light");
+  }
+};
+
 uploadInput.addEventListener("change", loadPuzzleImage);
 startButton.addEventListener("click", startGame);
+themeToggleButton.addEventListener("click", toggleTheme);
 
 startGame();
